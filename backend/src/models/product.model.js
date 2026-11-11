@@ -9,7 +9,7 @@ const productSchema = new mongoose.Schema(
     description: {
       type: String,
       required: true,
-      maxLength: 50,
+      maxLength: 200,
     },
     price: {
       type: Number,
@@ -17,6 +17,11 @@ const productSchema = new mongoose.Schema(
     },
     imgUrl: {
       type: String,
+      required: true,
+    },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
       required: true,
     },
   },

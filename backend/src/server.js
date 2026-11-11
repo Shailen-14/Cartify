@@ -1,4 +1,4 @@
-import express from "express";
+import express, { urlencoded } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import path from "path";
@@ -11,7 +11,7 @@ import productRoutes from "./routes/product.route.js";
 
 const app = express();
 
-app.use(express.json());
+app.use(express.json(urlencoded({ extended: true })));
 app.use(
   cors({
     origin: ENV.CLIENT_BASE_URL || "http://localhost:5173",
@@ -20,7 +20,7 @@ app.use(
 );
 app.use(cookieParser());
 
-app.use("/api/users", authRoutes);
+app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 
 const __dirname = path.resolve();

@@ -40,7 +40,9 @@ export const signUpUser = async (req, res) => {
 
     createTokenAndSetCookie(res, newUser._id);
 
-    return res.status(201).json({ success: true, user: newUser });
+    return res
+      .status(201)
+      .json({ success: true, user: { ...newUser._doc, password: undefined } });
   } catch (error) {
     console.error(`Error in signUpUser controller: ${error.message}`);
     return res.status(500).json({ message: "Internal Server Error" });
@@ -69,7 +71,9 @@ export const signInUser = async (req, res) => {
 
     createTokenAndSetCookie(res, user._id);
 
-    return res.status(200).json({ success: true, user });
+    return res
+      .status(200)
+      .json({ success: true, user: { ...user._doc, password: undefined } });
   } catch (error) {
     console.error(`Error in signInUser controller: ${error.message}`);
     return res.status(500).json({ message: "Internal Server Error" });
@@ -80,7 +84,7 @@ export const signOutUser = async (req, res) => {
   try {
     res.clearCookie("auth-token");
 
-    return res.status({
+    return res.status(200).json({
       success: true,
       message: "User logged out successfully",
     });
@@ -92,7 +96,7 @@ export const signOutUser = async (req, res) => {
 
 export const getMe = async (req, res) => {
   const user = req.user;
-  
+
   try {
     return res.status(200).json({ success: true, user });
   } catch (error) {
