@@ -6,6 +6,9 @@ import path from "path";
 import { ENV } from "./config/env.js";
 import { connectDB } from "./config/db.js";
 
+import authRoutes from "./routes/auth.route.js";
+import productRoutes from "./routes/product.route.js";
+
 const app = express();
 
 app.use(express.json());
@@ -16,6 +19,9 @@ app.use(
   }),
 );
 app.use(cookieParser());
+
+app.use("/api/users", authRoutes);
+app.use("/api/products", productRoutes);
 
 const __dirname = path.resolve();
 if (ENV.NODE_ENV === "production") {
