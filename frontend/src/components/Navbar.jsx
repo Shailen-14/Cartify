@@ -57,7 +57,7 @@ const Navbar = () => {
                     {theme.name}
                   </span>
 
-                  <div className="flex items-center gap-1 shrink-0">
+                  <div className="flex items-center gap-1">
                     {theme.colors.map((color, index) => (
                       <div
                         key={index}
@@ -77,13 +77,13 @@ const Navbar = () => {
             <Link to={"/cart"}>
               <ShoppingCart className="size-6" />
             </Link>
-            <button
-              className="btn btn-primary btn-md h-8 ml-3"
-              onClick={() => signOutUser()}
-              disabled={isLoading}
-            >
-              sign out
-            </button>
+              <button
+                className="btn btn-primary btn-md h-8 ml-3"
+                onClick={() => signOutUser()}
+                disabled={isLoading}
+              >
+                sign out
+              </button>
             <div className="avatar avatar-placeholder">
               <div className="bg-primary text-white w-9 rounded-full">
                 <span className="text-md">{user.name[0]}</span>

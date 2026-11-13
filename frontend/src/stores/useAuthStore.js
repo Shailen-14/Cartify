@@ -6,6 +6,7 @@ import api from "../axios.js";
 export const useAuthStore = create((set) => ({
   user: null,
   isLoading: false,
+  isCheckingAuth: true,
 
   signUpUser: async (data) => {
     try {
@@ -31,7 +32,7 @@ export const useAuthStore = create((set) => ({
       const res = await api.post("/api/auth/sign-in", data);
       set({ user: res.data.user });
       toast.success("Signed in successfully");
-      
+
       return true;
     } catch (error) {
       console.error(`Error signing up user: ${error.message}`);
@@ -54,6 +55,18 @@ export const useAuthStore = create((set) => ({
       toast.error(error.response?.data?.message || "Error signing out");
     } finally {
       set({ isLoading: false });
+    }
+  },
+
+  checkAuth: async () => {
+    try {
+      const res = await api.get("/api/auth/me");
+      set({ user: res.data.user });
+    } catch (error) {
+      console.error(`Error checking auth: ${error.message}`);
+      set({ user: null });
+    } finally {
+      set({ isCheckingAuth: false });
     }
   },
 }));

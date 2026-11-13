@@ -2,7 +2,9 @@ import { Product } from "../models/product.model.js";
 
 export const getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find().populate("userId", "name email");
+    const products = await Product.find()
+      .populate("userId", "name email")
+      .sort({ createdAt: -1 });
 
     return res.status(200).json({ success: true, products });
   } catch (error) {
