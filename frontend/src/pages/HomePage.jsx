@@ -158,7 +158,7 @@ const HomePage = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8 mt-10">
           {isProductsLoading &&
             Array.from({ length: 3 }).map((_, index) => (
-              <div key={index} className="flex w-70 flex-col gap-4">
+              <div key={index} className="flex max-w-80 flex-col gap-4">
                 <div className="skeleton h-32 w-full"></div>
                 <div className="skeleton h-4 w-28"></div>
                 <div className="skeleton h-4 w-full"></div>
