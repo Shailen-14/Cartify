@@ -53,9 +53,16 @@ export const useCartStore = create((set) => ({
   },
 
   clearCart: async () => {
+    const confirm = window.confirm("Are you sure you want to clear your cart?");
+
+    if (!confirm) {
+      return;
+    }
+
     try {
       set({ isClearingCart: true });
       await api.delete("/api/cart");
+      toast.success("Successfully cleared cart");
       set({ cart: [] });
     } catch (error) {
       console.error(`Error clearing cart: ${error.message}`);

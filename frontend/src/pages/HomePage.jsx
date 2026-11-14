@@ -34,6 +34,14 @@ const HomePage = () => {
 
   const navigate = useNavigate();
 
+  const handleCreateClick = () => {
+    if (user) {
+      document.getElementById("create-product-modal").showModal();
+    } else {
+      navigate("/sign-in");
+    }
+  };
+
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [imgUrl, setImgUrl] = useState("");
@@ -55,11 +63,7 @@ const HomePage = () => {
       <div className="max-w-6xl mx-auto px-8">
         <button
           className="btn btn-primary btn-sm font-bold"
-          onClick={() => {
-            user
-              ? document.getElementById("create-product-modal").showModal()
-              : navigate("/sign-in");
-          }}
+          onClick={handleCreateClick}
         >
           Create product
         </button>
@@ -153,11 +157,24 @@ const HomePage = () => {
               </div>
             ))}
 
-          {products.length === 0
-            ? null
-            : products.map((product) => (
-                <ProductCard key={product._id} props={product} />
-              ))}
+          {!isProductsLoading && products.length === 0 && (
+            <div className="col-span-full py-12 text-center">
+              <h2 className="text-xl font-semibold">No products yet</h2>
+              <p className="mt-2 text-base-content/70">
+                Be the first to add a product.
+              </p>
+              <button
+                className="mt-4 cursor-pointer text-primary font-bold"
+                onClick={handleCreateClick}
+              >
+                Create product 
+              </button>
+            </div>
+          )}
+
+          {products.map((product) => (
+            <ProductCard key={product._id} props={product} />
+          ))}
         </div>
       </div>
     </div>

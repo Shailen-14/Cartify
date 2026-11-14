@@ -1,6 +1,7 @@
 import { useShallow } from "zustand/react/shallow";
 import { Palette, ShoppingCart } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import { useAuthStore } from "../stores/useAuthStore";
 import { useThemeStore } from "../stores/useThemeStore";
@@ -9,6 +10,8 @@ import { daisyuiThemes } from "../daisyuiThemes";
 import { useCartStore } from "../stores/useCartStore";
 
 const Navbar = () => {
+  const {pathname} = useLocation();
+
   const { user, signOutUser, isLoading } = useAuthStore(
     useShallow((state) => ({
       user: state.user,
@@ -76,7 +79,7 @@ const Navbar = () => {
         {user ? (
           <div className="flex gap-4 items-center">
             <Link to={"/cart"}>
-              <ShoppingCart className="size-6" />
+              <ShoppingCart className="size-6" fill={pathname === "/cart" && "white"} />
             </Link>
             <button
               className="btn btn-primary btn-md h-8 ml-3"
