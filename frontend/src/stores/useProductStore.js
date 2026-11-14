@@ -1,7 +1,7 @@
 import { create } from "zustand";
+import toast from "react-hot-toast";
 
 import api from "../axios";
-import toast from "react-hot-toast";
 
 export const useProductStore = create((set) => ({
   products: [],
@@ -56,7 +56,7 @@ export const useProductStore = create((set) => ({
       return true;
     } catch (error) {
       console.error(`Error creating product: ${error.message}`);
-      toast.error(error.response?.data?.message);
+      toast.error(error.response?.data?.message || "Error creating product");
       return false;
     } finally {
       set({ isLoading: false });
@@ -78,8 +78,8 @@ export const useProductStore = create((set) => ({
       }));
       toast.success("Product deleted successfully");
     } catch (error) {
-      console.error(`Error creating product: ${error.message}`);
-      toast.error(error.response?.data?.message);
+      console.error(`Error deleting product: ${error.message}`);
+      toast.error(error.response?.data?.message || "Error deleting product");
     }
   },
 }));

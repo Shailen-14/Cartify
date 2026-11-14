@@ -1,16 +1,14 @@
 import { useShallow } from "zustand/react/shallow";
 import { Palette, ShoppingCart } from "lucide-react";
-import { Link } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+
+import { daisyuiThemes } from "../daisyuiThemes";
 
 import { useAuthStore } from "../stores/useAuthStore";
 import { useThemeStore } from "../stores/useThemeStore";
 
-import { daisyuiThemes } from "../daisyuiThemes";
-import { useCartStore } from "../stores/useCartStore";
-
 const Navbar = () => {
-  const {pathname} = useLocation();
+  const { pathname } = useLocation();
 
   const { user, signOutUser, isLoading } = useAuthStore(
     useShallow((state) => ({
@@ -29,7 +27,7 @@ const Navbar = () => {
 
   return (
     <div className="flex justify-between items-center px-8 md:px-10 py-3 sticky top-0 z-50 border-b border-base-content/30 bg-base-200 shadow-md">
-      <Link to={"/"}>
+      <Link to="/">
         <h1 className="font-bold tracking-tight text-xl md:text-2xl">
           Cartify
         </h1>
@@ -37,9 +35,13 @@ const Navbar = () => {
 
       <div className="flex gap-4 items-center">
         <div className="dropdown dropdown-end">
-          <div tabIndex={0} role="button" className="cursor-pointer">
+          <button
+            type="button"
+            aria-label="Choose theme"
+            className="btn btn-ghost btn-circle"
+          >
             <Palette className="size-6" />
-          </div>
+          </button>
 
           <div
             tabIndex={-1}
@@ -62,9 +64,9 @@ const Navbar = () => {
                   </span>
 
                   <div className="flex items-center gap-1">
-                    {theme.colors.map((color, index) => (
+                    {theme.colors.map((color) => (
                       <div
-                        key={index}
+                        key={color}
                         className="size-3 rounded-full"
                         style={{ backgroundColor: color }}
                       />
@@ -78,8 +80,11 @@ const Navbar = () => {
 
         {user ? (
           <div className="flex gap-4 items-center">
-            <Link to={"/cart"}>
-              <ShoppingCart className="size-6" fill={pathname === "/cart" && "white"} />
+            <Link to="/cart">
+              <ShoppingCart
+                className="size-6"
+                fill={pathname === "/cart" ? "white" : "none"}
+              />
             </Link>
             <button
               className="btn btn-primary btn-md h-8 ml-3"
@@ -90,17 +95,17 @@ const Navbar = () => {
             </button>
             <div className="avatar avatar-placeholder">
               <div className="bg-primary text-white w-9 rounded-full">
-                <span className="text-md">{user.name[0]}</span>
+                <span className="text-md">{user.name?.[0] ?? "?"}</span>
               </div>
             </div>
           </div>
         ) : (
           <div className="flex gap-4 items-center">
-            <Link to={"/sign-in"} className="hover:underline">
+            <Link to="/sign-in" className="hover:underline">
               sign in
             </Link>
-            <Link to={"/sign-up"}>
-              <button className="btn btn-primary btn-md h-8">sign up</button>
+            <Link to="/sign-up" className="btn btn-primary btn-md h-8">
+              sign up
             </Link>
           </div>
         )}

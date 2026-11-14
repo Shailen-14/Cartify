@@ -13,6 +13,7 @@ export const useCartStore = create((set) => ({
 
   getCart: async () => {
     try {
+      set({ isGettingCart: true });
       const res = await api.get("/api/cart");
       set({ cart: res.data.cart });
     } catch (error) {
@@ -45,7 +46,7 @@ export const useCartStore = create((set) => ({
     } catch (error) {
       console.error(`Error deleting product from cart: ${error.message}`);
       toast.error(
-        error.response?.data?.message || "Error deleting product to cart",
+        error.response?.data?.message || "Error deleting product from cart",
       );
     } finally {
       set({ isDeletingProductFromCart: false });

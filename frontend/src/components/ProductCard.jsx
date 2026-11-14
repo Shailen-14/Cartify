@@ -1,11 +1,11 @@
-import { useShallow } from "zustand/react/shallow";
-import { PenSquareIcon, TrashIcon } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { PenSquareIcon, TrashIcon } from "lucide-react";
+import { useShallow } from "zustand/react/shallow";
 
 import { useCartStore } from "../stores/useCartStore";
-import { useProductStore } from "../stores/useProductStore";
 import { useAuthStore } from "../stores/useAuthStore";
+import { useProductStore } from "../stores/useProductStore";
 
 const ProductCard = ({ props }) => {
   const [name, setName] = useState("");
@@ -80,12 +80,12 @@ const ProductCard = ({ props }) => {
   };
 
   return (
-    <div className="card bg-base-100 w-full max-w-80 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all">
-      <figure className="h-44 overflow-hidden">
+    <div className="card bg-base-100 w-full max-w-80 border border-base-content/20 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all">
+      <figure className="h-40 overflow-hidden">
         <img
           src={props.imgUrl || fallbackImage}
           alt={props.name}
-          className="w-full h-full object-contain bg-base-content/20"
+          className="w-full h-full object-contain bg-white"
           onError={(e) => {
             e.currentTarget.onerror = null;
             e.currentTarget.src = fallbackImage;

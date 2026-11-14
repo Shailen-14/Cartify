@@ -48,6 +48,7 @@ export const addItemToCart = async (req, res) => {
     }
 
     await user.save();
+    await user.populate("cart.productId");
 
     return res.status(200).json({ success: true, cart: user.cart });
   } catch (error) {
@@ -76,6 +77,7 @@ export const deleteItemFromCart = async (req, res) => {
     user.cart = user.cart.filter((item) => !item.productId.equals(productId));
 
     await user.save();
+    await user.populate("cart.productId");
 
     return res.status(200).json({ success: true, cart: user.cart });
   } catch (error) {

@@ -1,17 +1,15 @@
 import { useState } from "react";
 import { ArrowLeft, Eye, EyeClosed } from "lucide-react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useShallow } from "zustand/react/shallow";
 
 import { useAuthStore } from "../stores/useAuthStore";
-import { useShallow } from "zustand/react/shallow";
 
 const SignUpPage = () => {
   const [showPassword, setShowPassword] = useState(false);
-
-  const [name, setName] = useState(null);
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const { isLoading, signUpUser } = useAuthStore(
     useShallow((state) => ({
@@ -105,7 +103,10 @@ const SignUpPage = () => {
           <div className="mt-2">
             <p className="text-xs">
               Already have an account?{" "}
-              <Link to="/sign-in" className="text-primary font-semibold hover:underline">
+              <Link
+                to="/sign-in"
+                className="text-primary font-semibold hover:underline"
+              >
                 Sign In
               </Link>
             </p>

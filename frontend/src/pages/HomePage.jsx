@@ -1,16 +1,14 @@
-import { useShallow } from "zustand/react/shallow";
-import { useAuthStore } from "../stores/useAuthStore";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useProductStore } from "../stores/useProductStore";
+import { useShallow } from "zustand/react/shallow";
+
 import ProductCard from "../components/ProductCard";
 
+import { useAuthStore } from "../stores/useAuthStore";
+import { useProductStore } from "../stores/useProductStore";
+
 const HomePage = () => {
-  const { user } = useAuthStore(
-    useShallow((state) => ({
-      user: state.user,
-    })),
-  );
+  const user = useAuthStore((state) => state.user);
 
   const {
     getAllProducts,
@@ -30,7 +28,7 @@ const HomePage = () => {
 
   useEffect(() => {
     getAllProducts();
-  }, [products]);
+  }, [getAllProducts]);
 
   const navigate = useNavigate();
 
@@ -47,14 +45,22 @@ const HomePage = () => {
   const [imgUrl, setImgUrl] = useState("");
   const [price, setPrice] = useState(1);
 
-  const handleSubmit = async () => {
-    const success = await createProduct({ name, description, price, imgUrl });
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const success = await createProduct({
+      name,
+      description,
+      price: Number(price),
+      imgUrl,
+    });
 
     if (success) {
       setName("");
       setDescription("");
       setImgUrl("");
       setPrice(1);
+      document.getElementById("create-product-modal")?.close();
     }
   };
 
@@ -67,19 +73,22 @@ const HomePage = () => {
         >
           Create product
         </button>
+
         <dialog id="create-product-modal" className="modal">
           <div className="modal-box px-8">
             <h3 className="font-bold text-lg">Create Product</h3>
-            <form method="dialog" onSubmit={handleSubmit}>
+
+            <form onSubmit={handleSubmit}>
               <button
                 className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
                 onClick={() =>
-                  document.getElementById("create-product-modal").close()
+                  document.getElementById("create-product-modal")?.close()
                 }
                 type="button"
               >
                 ✕
               </button>
+
               <fieldset className="fieldset w-full p-4">
                 <label className="label" htmlFor="name">
                   Name
@@ -140,7 +149,7 @@ const HomePage = () => {
                   type="submit"
                   disabled={isLoading}
                 >
-                  Create
+                  {isLoading ? "Creating..." : "Create"}
                 </button>
               </fieldset>
             </form>
@@ -167,7 +176,7 @@ const HomePage = () => {
                 className="mt-4 cursor-pointer text-primary font-bold"
                 onClick={handleCreateClick}
               >
-                Create product 
+                Create product
               </button>
             </div>
           )}

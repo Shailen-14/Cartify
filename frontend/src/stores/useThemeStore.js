@@ -9,7 +9,7 @@ export const useThemeStore = create((set) => ({
   },
 
   getTheme: () => {
-    const theme = localStorage.getItem("theme");
+    const theme = localStorage.getItem("theme") || "light";
     set({ selectedTheme: theme });
   },
 }));
