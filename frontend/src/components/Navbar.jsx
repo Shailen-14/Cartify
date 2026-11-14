@@ -26,26 +26,26 @@ const Navbar = () => {
   );
 
   return (
-    <div className="flex justify-between items-center px-8 md:px-10 py-3 sticky top-0 z-50 border-b border-base-content/30 bg-base-200 shadow-md">
-      <Link to="/">
-        <h1 className="font-bold tracking-tight text-xl md:text-2xl">
+    <header className="sticky top-0 z-50 flex items-center justify-between gap-3 border-b border-base-content/30 bg-base-200 px-3 py-2 shadow-md sm:px-6 sm:py-3 md:px-10">
+      <Link to="/" className="shrink-0">
+        <h1 className="text-lg font-bold tracking-tight sm:text-xl md:text-2xl">
           Cartify
         </h1>
       </Link>
 
-      <div className="flex gap-4 items-center">
-        <div className="dropdown dropdown-end">
+      <div className="flex min-w-0 items-center gap-1.5 sm:gap-3">
+        <div className="dropdown dropdown-start sm:dropdown-end">
           <button
             type="button"
             aria-label="Choose theme"
-            className="btn btn-ghost btn-circle"
+            className="btn btn-ghost btn-circle btn-sm shrink-0"
           >
-            <Palette className="size-6" />
+            <Palette className="size-5 sm:size-6" />
           </button>
 
           <div
             tabIndex={-1}
-            className="dropdown-content bg-base-100 rounded-box z-50 w-56 p-2 shadow-lg max-h-80 overflow-y-auto"
+            className="dropdown-content z-50 max-h-[30vh] md:max-h-[40vh] w-56 max-w-[calc(100vw-2rem)] overflow-y-auto rounded-box bg-base-100 p-2 shadow-lg max-sm:fixed max-sm:left-auto max-sm:right-4 max-sm:top-16"
           >
             <div className="flex flex-col gap-1">
               {daisyuiThemes.map((theme) => (
@@ -79,38 +79,45 @@ const Navbar = () => {
         </div>
 
         {user ? (
-          <div className="flex gap-4 items-center">
-            <Link to="/cart">
+          <div className="flex shrink-0 items-center gap-1.5 sm:gap-3">
+            <Link
+              to="/cart"
+              aria-label="Shopping cart"
+              className="btn btn-ghost btn-circle btn-sm"
+            >
               <ShoppingCart
-                className="size-6"
+                className="size-5 sm:size-6"
                 fill={pathname === "/cart" ? "white" : "none"}
               />
             </Link>
             <button
-              className="btn btn-primary btn-md h-8 ml-3"
+              className="btn btn-primary btn-sm h-8 whitespace-nowrap px-2 sm:px-3"
               onClick={() => signOutUser()}
               disabled={isLoading}
             >
-              sign out
+              Sign out
             </button>
             <div className="avatar avatar-placeholder">
-              <div className="bg-primary text-white w-9 rounded-full">
-                <span className="text-md">{user.name?.[0] ?? "?"}</span>
+              <div className="w-8 rounded-full bg-primary text-white sm:w-9">
+                <span className="text-sm">{user.name?.[0] ?? "?"}</span>
               </div>
             </div>
           </div>
         ) : (
-          <div className="flex gap-4 items-center">
-            <Link to="/sign-in" className="hover:underline">
-              sign in
+          <div className="flex shrink-0 items-center gap-2 sm:gap-4">
+            <Link to="/sign-in" className="whitespace-nowrap hover:underline">
+              Sign in
             </Link>
-            <Link to="/sign-up" className="btn btn-primary btn-md h-8">
-              sign up
+            <Link
+              to="/sign-up"
+              className="btn btn-primary btn-sm h-8 whitespace-nowrap px-2 sm:px-3"
+            >
+              Sign up
             </Link>
           </div>
         )}
       </div>
-    </div>
+    </header>
   );
 };
 
