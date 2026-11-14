@@ -65,7 +65,7 @@ const HomePage = () => {
   };
 
   return (
-    <div className="py-20 px-10">
+    <div className="py-10 md:py-20 px-5">
       <div className="max-w-6xl mx-auto px-8">
         <button
           className="btn btn-primary btn-sm font-bold"
