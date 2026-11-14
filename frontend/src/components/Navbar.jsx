@@ -6,6 +6,7 @@ import { useAuthStore } from "../stores/useAuthStore";
 import { useThemeStore } from "../stores/useThemeStore";
 
 import { daisyuiThemes } from "../daisyuiThemes";
+import { useCartStore } from "../stores/useCartStore";
 
 const Navbar = () => {
   const { user, signOutUser, isLoading } = useAuthStore(
@@ -77,13 +78,13 @@ const Navbar = () => {
             <Link to={"/cart"}>
               <ShoppingCart className="size-6" />
             </Link>
-              <button
-                className="btn btn-primary btn-md h-8 ml-3"
-                onClick={() => signOutUser()}
-                disabled={isLoading}
-              >
-                sign out
-              </button>
+            <button
+              className="btn btn-primary btn-md h-8 ml-3"
+              onClick={() => signOutUser()}
+              disabled={isLoading}
+            >
+              sign out
+            </button>
             <div className="avatar avatar-placeholder">
               <div className="bg-primary text-white w-9 rounded-full">
                 <span className="text-md">{user.name[0]}</span>

@@ -28,7 +28,9 @@ const HomePage = () => {
     })),
   );
 
-  useEffect(() => getAllProducts, [products]);
+  useEffect(() => {
+    getAllProducts();
+  }, [products]);
 
   const navigate = useNavigate();
 
@@ -67,7 +69,9 @@ const HomePage = () => {
             <form method="dialog" onSubmit={handleSubmit}>
               <button
                 className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-                onClick={() => document.getElementById("create-product-modal").close()}
+                onClick={() =>
+                  document.getElementById("create-product-modal").close()
+                }
                 type="button"
               >
                 ✕

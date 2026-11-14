@@ -1,8 +1,11 @@
 import { useShallow } from "zustand/react/shallow";
-import { useAuthStore } from "../stores/useAuthStore";
 import { PenSquareIcon, TrashIcon } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import { useCartStore } from "../stores/useCartStore";
 import { useProductStore } from "../stores/useProductStore";
-import { useState } from "react";
+import { useAuthStore } from "../stores/useAuthStore";
 
 const ProductCard = ({ props }) => {
   const [name, setName] = useState("");
@@ -24,6 +27,21 @@ const ProductCard = ({ props }) => {
     })),
   );
 
+  const { addProductToCart, cart } = useCartStore(
+    useShallow((state) => ({
+      addProductToCart: state.addProductToCart,
+      cart: state.cart,
+    })),
+  );
+
+  const quantity =
+    cart.find(
+      (item) =>
+        String(item.productId?._id ?? item.productId) === String(props._id),
+    )?.quantity ?? 0;
+
+  const navigate = useNavigate();
+
   const handleSubmit = async (id) => {
     await updateProduct(id, { name, description, imgUrl, price });
   };
@@ -32,7 +50,7 @@ const ProductCard = ({ props }) => {
     "https://static.vecteezy.com/system/resources/thumbnails/004/141/669/small_2x/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg";
 
   return (
-    <div className="card bg-base-100 hover:bg-base-200 max-w-80 max-h-80 shadow-lg hover:shadow-xl transition-all">
+    <div className="card bg-base-100 max-w-80 max-h-80 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all">
       <figure>
         <img
           src={props.imgUrl}
@@ -47,7 +65,9 @@ const ProductCard = ({ props }) => {
           {props.description}
         </p>
         <div className="card-actions">
-          {user.email === props.userId.email ? (
+          {user?.email &&
+          props.userId?.email &&
+          user.email === props.userId.email ? (
             <div className="w-full flex justify-between gap-2">
               <p className="font-md font-bold">
                 {Number(props.price).toLocaleString("en-ZA", {
@@ -71,7 +91,10 @@ const ProductCard = ({ props }) => {
               <dialog id="update-product-modal" className="modal">
                 <div className="modal-box px-8">
                   <h3 className="font-bold text-lg">Update Product</h3>
-                  <form method="dialog" onSubmit={() => handleSubmit(props._id)}>
+                  <form
+                    method="dialog"
+                    onSubmit={() => handleSubmit(props._id)}
+                  >
                     <button
                       className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
                       type="button"
@@ -142,7 +165,19 @@ const ProductCard = ({ props }) => {
             </div>
           ) : (
             <div className="px-2 w-full flex justify-end">
-              <button className="btn btn-sm btn-primary">Add to cart</button>
+              <button
+                className="btn btn-sm btn-primary"
+                onClick={async () => {
+                  if (!user) {
+                    navigate("/sign-in");
+                    return;
+                  }
+
+                  await addProductToCart(props._id);
+                }}
+              >
+                Add to cart {quantity > 0 && `(${quantity})`}
+              </button>
             </div>
           )}
         </div>
